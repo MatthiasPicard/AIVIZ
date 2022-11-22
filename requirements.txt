@@ -1,0 +1,8 @@
+numpy
+pandas
+kmodes
+scikit-learn
+streamlit
+extra_streamlit_components
+plotly
+prince
