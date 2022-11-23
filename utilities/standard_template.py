@@ -11,6 +11,8 @@ def get_info(category):
         "Classification":"""Supervised, assigns individuals to a class using
                          training data. Last column will be used as targer class.""",
         "Regression":"Supervised, predicts numerical value to a column, usign training data",
+        "Data Exploration":"Univariate and bivariate data analysis",
+        "Data Preprocessing":"Prepare data for Machine Learning",
         "Others":'Other algorithms, such as linear regression'
     }
     st.info(infos[category])

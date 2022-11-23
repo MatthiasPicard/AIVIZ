@@ -30,11 +30,9 @@ def process(data):
     #st.write(list(zip(reg.coef_,cols)))
     st.latex(f"  {x_train.columns[-1]} =   ")
     coeffs = ['{:.4f}'.format(float(c)) for c in reg.coef_]
-    #st.write(coeffs)
+
     eq = ' + '.join([str(col) +' × '+ (alpha) for col,alpha in zip(coeffs,cols)])
     st.markdown(f" $$ {reg.intercept_} {eq} $$")
-    #st.latex("  {x_train.columns[-1]} = ")
-    #st.latex(eq)
 
     st.latex(f" R² = {reg.score(x_train, y_train)} ")
 

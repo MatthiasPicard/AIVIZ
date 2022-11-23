@@ -1,6 +1,8 @@
 import streamlit as st
 from utilities.standard_template import Page, get_info
 from utilities.land import land_page
+import analysis.preprocessing
+import analysis.exploration
 import warnings
  
 warnings.filterwarnings("ignore")
@@ -22,13 +24,20 @@ with st.sidebar:
                                                 "Clustering",
                                                 "Classification",
                                                 "Regression",
+                                                "Data Exploration",
+                                                "Data Preprocessing",
                                                 "Others"
                                             ])
     get_info(choice)
 
-if choice != ' --- Choose --- ':
+if choice in ['Clustering', 'Classification', 'Regression']:
     Page(choice).render()
     
-    
+elif choice == 'Data Preprocessing':
+    analysis.preprocessing.render()
+
+elif choice == 'Data Exploration':
+    analysis.exploration.render()
+
 else:
     land_page()
