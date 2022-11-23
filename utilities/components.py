@@ -5,6 +5,7 @@ import extra_streamlit_components as stx
 
 import prince
 import plotly.express as px
+import pandas as pd
 
 import algos.clustering.kmeans
 import algos.clustering.dbscan
@@ -13,6 +14,12 @@ import algos.clustering.kproto
 import algos.classification.nnclassifier
 import algos.classification.logistic
 import algos.classification.svmclassifier
+
+import algos.regression.linR
+import algos.regression.ridge
+import algos.regression.elasticnet
+
+from types import NoneType
 
 def get_data(category, algo_name=None):
     if category in ['Classification','Regression']:
@@ -51,9 +58,26 @@ def choose_algo(category):
             return algos.classification.svmclassifier.process
         if algo == 'logR':
             return algos.classification.logistic.process
+    elif category == 'Regression':
+        algo = stx.tab_bar(data=[
+            stx.TabBarItemData(id='linR',title='Linear Regression',description='Linear Regression'),
+            stx.TabBarItemData(id='ridge',title='Ridge',
+                        description='Ridge Regression'),
+            stx.TabBarItemData(id='elastic',title='Elastic Net Regression',description='Elastic Net Regression')]
+        )
+        if algo == 'linR':
+            return algos.regression.linR.process
+        if algo == 'ridge':
+            return algos.regression.ridge.process
+        if algo == 'elastic':
+            return algos.regression.elasticnet.process
 
 
 def get_plot(df, title):
+
+    if title == 'Regression':
+        return None # Do not plot regression, display its coefficients
+
     reduce_algo = None
     pca = None
 
@@ -63,6 +87,10 @@ def get_plot(df, title):
         viz_thing = 'Classes'
 
     # name of column to represent as color on the graph (target class)
+    if type(df) == NoneType:
+        return None
+    if len(df) == 0:
+        return None
     target_class = df.columns[-1]
 
     if df.shape == (0,0):

@@ -1,18 +1,17 @@
+from sklearn.linear_model import ElasticNet
 import streamlit as st
-import numpy as np
-from sklearn.linear_model import LogisticRegression
 from types import NoneType
 
 def process(data):
     if type(data[0]) == NoneType or type(data[1]) == NoneType: # if either training or testing dataset is still missing
         st.info('Please Upload Data')
         return None
-
     if 'object' in list(data[0].dtypes) or 'object' in list(data[1].dtypes):
         st.info('Please Upload Numerica Data.')
         return None
-    st.write(data[0].dtypes)
-
+    if len(data) == 0:
+        st.info('Please Upload Data')
+        return None
     x_train = data[0].iloc[:,:-1]
     y_train = data[0].iloc[:,-1]
     #st.write(x_train.shape)
@@ -24,8 +23,21 @@ def process(data):
         st.info('Training and testing datasets have different column number, cannot perform classification.')
         return None
 
-    clf = LogisticRegression(random_state=0).fit(x_train, y_train)
-    #clf.fit(x_train, y_train)
+    clf = ElasticNet().fit(x_train, y_train)
     pred = clf.predict(x_test)
+
+
+    cols = x_train.columns
+
+    #st.write(clf.coef_)
+
+    st.latex(f"  {x_train.columns[-1]} =   ")
+    coeffs = ['{:.4f}'.format(float(c)) for c in clf.coef_]
+    #st.write(coeffs)
+    eq = ' + '.join([str(col) +' × '+ (alpha) for col,alpha in zip(coeffs,cols)])
+    st.markdown(f" $$ {clf.intercept_} {eq} $$")
+
+    st.latex(f" R² = {clf.score(x_train, y_train)} ")
+
     x_test[data[0].columns[-1]] = pred
-    return x_test   
+    return x_test

@@ -39,7 +39,7 @@ class Page:
         with col2.container():
             ##### CHOSE ALGORITHM #####
             self.algo = choose_algo(self.title)
-            if self.algo is not None and self.data is not None:
+            if self.algo is not None and self.data is not None: 
                 self.results = pd.DataFrame(self.algo(self.data))
                 self.plot = get_plot(self.results, self.title)
 

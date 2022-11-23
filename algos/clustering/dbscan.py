@@ -18,7 +18,7 @@ def process(data):
         df[c] = scaler.fit_transform(data[0][[c]])
 
     max_distance = st.slider("""Maximum distance between two samples for one to be considered
-                                as in the neighborhood of the other. :""",0.01,1.0)
+                                as in the neighborhood of the other. :""",0.01,5.0)
     dbscan = DBSCAN(max_distance)
     res = dbscan.fit_predict(df)
     df = data[0]

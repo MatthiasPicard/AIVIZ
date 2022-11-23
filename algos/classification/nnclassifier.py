@@ -7,6 +7,9 @@ def process(data):
     if type(data[0]) == NoneType or type(data[1]) == NoneType: # if either training or testing dataset is still missing
         st.info('Please Upload Data')
         return None
+    if 'object' in list(data[0].dtypes) or 'object' in list(data[1].dtypes):
+        st.info('Please Upload Numerica Data.')
+        return None
     x_train = data[0].iloc[:,:-1]
     y_train = data[0].iloc[:,-1]
     #st.write(x_train.shape)
