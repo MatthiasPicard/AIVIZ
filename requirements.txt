@@ -7,3 +7,4 @@ extra_streamlit_components
 plotly
 prince
 pandas-profiling
+streamlit-pandas-profiling
