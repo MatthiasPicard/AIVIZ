@@ -10,6 +10,10 @@ import algos.clustering.kmeans
 import algos.clustering.dbscan
 import algos.clustering.kproto
 
+import algos.classification.nnclassifier
+import algos.classification.logistic
+import algos.classification.svmclassifier
+
 def get_data(category, algo_name=None):
     if category in ['Classification','Regression']:
         train = upload_data('Training Data')
@@ -34,13 +38,32 @@ def choose_algo(category):
             return algos.clustering.dbscan.process
         if algo == 'K-Prototype':
             return algos.clustering.kproto.process
+    elif category == 'Classification':
+        algo = stx.tab_bar(data=[
+            stx.TabBarItemData(id='NN',title='Neural Network',description='Multi-Layer Perceptron classifier'),
+            stx.TabBarItemData(id='SVM',title='Suport Vector Classifier',
+                        description='Classification using Support Vector Machines'),
+            stx.TabBarItemData(id='logR',title='Logistic Regression',description='Logistic Regression Classifier')]
+        )
+        if algo == 'NN':
+            return algos.classification.nnclassifier.process
+        if algo == 'SVM':
+            return algos.classification.svmclassifier.process
+        if algo == 'logR':
+            return algos.classification.logistic.process
 
 
-
-def get_plot(df):
+def get_plot(df, title):
     reduce_algo = None
     pca = None
 
+    # Better title for the graph
+    viz_thing = 'Clusters'
+    if title == 'Classification':
+        viz_thing = 'Classes'
+
+    # name of column to represent as color on the graph (target class)
+    target_class = df.columns[-1]
 
     if df.shape == (0,0):
         return None
@@ -53,7 +76,7 @@ def get_plot(df):
         pca = prince.PCA(n_components=3)
     reduced = pca.fit(df.iloc[:,:-1]).row_coordinates(df.iloc[:,:-1])
     reduced.columns = ['X','Y','Z']
-    reduced['cluster'] = df['cluster'].astype(str)
+    reduced[target_class] = df[target_class].astype(str)
     # Each axe's inertia
     labs = {
         "X" : f"Component 0 - ({round(100*pca.explained_inertia_[0],2)}% inertia)",
@@ -61,7 +84,7 @@ def get_plot(df):
         "Z" : f"Component 2 - ({round(100*pca.explained_inertia_[2],2)}% inertia)",
     }
     tot_inertia = f"{round(100*pca.explained_inertia_.sum(),2)}"
-    st.write(f'{reduce_algo} Visualization of Clusters ({tot_inertia}%) :')
-    fig = px.scatter_3d(reduced,x='X',y='Y',z='Z',color='cluster',labels=labs)
+    st.write(f'{reduce_algo} Visualization of {viz_thing} ({tot_inertia}%) :')
+    fig = px.scatter_3d(reduced,x='X',y='Y',z='Z',color=target_class,labels=labs)
     fig.update_layout(margin=dict(l=0, r=0, b=0, t=0),showlegend=False,height=300)
     return fig

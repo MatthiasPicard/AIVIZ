@@ -8,7 +8,9 @@ def get_info(category):
     infos = {
         " --- Choose --- ":'We Provide several different types of algorithms, such as Clustering or Classification',
         "Clustering":'Unsupervised, creates clusters of similars individuals',
-        "Classification":'Supervised, assigns individuals to a class usign training data',
+        "Classification":"""Supervised, assigns individuals to a class using
+                         training data. Last column will be used as targer class.""",
+        "Regression":"Supervised, predicts numerical value to a column, usign training data",
         "Others":'Other algorithms, such as linear regression'
     }
     st.info(infos[category])
@@ -39,7 +41,7 @@ class Page:
             self.algo = choose_algo(self.title)
             if self.algo is not None and self.data is not None:
                 self.results = pd.DataFrame(self.algo(self.data))
-                self.plot = get_plot(self.results)
+                self.plot = get_plot(self.results, self.title)
 
             ##### PLOT RESULTS #####
             if self.plot is not None:
