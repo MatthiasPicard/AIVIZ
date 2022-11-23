@@ -33,8 +33,8 @@ class Page:
         with col1.container():
             data = get_data(self.title)
             if type(data) == tuple:
-                if type(data[0]) != NoneType:
-                    st.dataframe(data[0].head(5//len(data)))
+                if self.title == 'Clustering' and type(data[0]) is not NoneType:
+                    st.dataframe(data[0], use_container_width=True,height=280)
             self.data = data
             
 
