@@ -17,7 +17,7 @@ def land_page():
     center.markdown("<h3 style='text-align: center;'>Understand your Data</h3>", unsafe_allow_html=True)
 
     center.write("""AIViz provides a Data Exploration tool, that lets you explore all your variables. You can
-                easily visalize and understand univariate and bivariate behavior of your data. """)
+                easily visualize and understand univariate and bivariate behaviors of your data. """)
 
     center.markdown("<h3 style='text-align: center;'>Preprocessing</h3>", unsafe_allow_html=True)
 
@@ -31,5 +31,5 @@ def land_page():
         \ \ \ \ \ \ \ \ \ \ \ \ \   - \ us.""")   
 
     center.write("""The core of AIViz is Machine Learning. Now that you have uploaded and preprocessed
-                your data, you can perform Artificial Intelligence algorithms to it. We provide several
+                your data, you can perform Artificial Intelligence algorithms on it. We provide several
                 different algorithms, for Clustering, Classification or Regression.""")
